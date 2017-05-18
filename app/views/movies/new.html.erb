@@ -1,46 +1,16 @@
+<!-- Validation failure messages -->
+<% if @movie.errors.any? %>
+<% @movie.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= message %>
+</div>
+<% end %>
+<% end %>
+
 <div class="page-header">
-  <h3>Director #<%= @director.id %></h3>
+  <h3>Add Movie</h3>
 </div>
-
-<div class="row">
-  <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
-      <dt>Name</dt>
-      <dd><%= @director.name %></dd>
-
-      <dt>Dob</dt>
-      <dd><%= @director.dob %></dd>
-
-      <dt>Bio</dt>
-      <dd><%= @director.bio %></dd>
-
-      <dt>Image url</dt>
-      <dd><%= @director.image_url %></dd>
-
-      <dt>Number of Films Directed</dt>
-      <dd><%= Movie.where(:director_id => @director.id).count %></dd>
-
-    </dl>
-
-    <div class="btn-group btn-group-justified">
-      <a href="/directors" class="btn btn-primary">
-        Back
-      </a>
-      <a href="/directors/<%= @director.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_director/<%= @director.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
-    </div>
-  </div>
-</div>
-
-<ul>
-  <% Movie.where(:director_id => @director.id).each do |movie| %>
-  <li><%= movie.title %></li>
-  <% end %>
-</ul>
 
 <div class="row">
   <div class="col-md-12">
@@ -95,12 +65,19 @@
 
       <!-- Label and input for director_id -->
       <div class="form-group">
+        <label for="director_id" class="control-label">
+          Director
+        </label>
 
 
-        <input type="hidden" name="director_id" value="<%= @director.id %>">
+
+        <%= select_tag(:director_id, options_from_collection_for_select(Director.all, :id, :name, @movie.director_id), :class => "form-control") %>
       </div>
 
-      <button class="btn btn-success">Create Movie</button>
+
+      <button class="btn btn-success">
+        Create Movie
+      </button>
       or
       <a href="/movies">Cancel</a>
     </form>
